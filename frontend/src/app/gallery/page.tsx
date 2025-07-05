@@ -9,11 +9,11 @@ export default function Gallery() {
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-[#49c5b6]">
-            Portrait Gallery
+            Blonks Gallery
           </h1>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Explore all minted Temporal ASCII Portraits. Each piece is unique
-            and evolves over time, creating a living collection of on-chain art.
+            Explore all minted Blonks. Each piece is unique and evolves over
+            time, creating a living collection of on-chain art.
           </p>
         </div>
 

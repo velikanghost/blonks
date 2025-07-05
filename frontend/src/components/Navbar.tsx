@@ -58,12 +58,12 @@ export default function Navbar() {
   return (
     <nav className="border-b border-[#49c5b6]">
       <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[#49c5b6] w-[15%]">Gatherers</h1>
+        <h1 className="text-2xl font-bold text-[#49c5b6] w-[15%]">Blonks</h1>
         <div className="flex items-center gap-[56px]">
           <NavLink href="/">Mint</NavLink>
           <NavLink href="/gallery">Gallery</NavLink>
           <NavLink href="/inventory">Inventory</NavLink>
-          <NavLink href="https://x.com/GatherersNFT">X/Twitter</NavLink>
+          <NavLink href="https://x.com/BlonksNFT">X/Twitter</NavLink>
         </div>
         <ConnectButton />
       </div>

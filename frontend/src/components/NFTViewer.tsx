@@ -3,10 +3,7 @@
 import { useReadContract } from 'wagmi'
 import { Address } from 'viem'
 import { web3config } from '@/dapp.config'
-import {
-  portraitsAbi,
-  useReadPortraitsTotalSupply,
-} from '@/contracts-generated'
+import { blonksAbi, useReadBlonksTotalSupply } from '@/contracts-generated'
 import { useState } from 'react'
 
 function NFTCard({ tokenId }: { tokenId: number }) {
@@ -19,14 +16,14 @@ function NFTCard({ tokenId }: { tokenId: number }) {
     isError,
   } = useReadContract({
     address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'tokenURI',
     args: [BigInt(tokenId)],
   })
 
   const { data: originalMinter } = useReadContract({
     address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'originalMinter',
     args: [BigInt(tokenId)],
   })
@@ -58,7 +55,7 @@ function NFTCard({ tokenId }: { tokenId: number }) {
         <div className="aspect-square bg-red-900/20 rounded-lg mb-4 flex items-center justify-center">
           <span className="text-red-400 text-sm">Failed to load</span>
         </div>
-        <h3 className="text-white font-bold">Portrait #{tokenId}</h3>
+        <h3 className="text-white font-bold">Blonk #{tokenId}</h3>
         <p className="text-red-400 text-sm">Error loading NFT</p>
       </div>
     )
@@ -96,7 +93,7 @@ function NFTCard({ tokenId }: { tokenId: number }) {
 
       <div className="space-y-2">
         <h3 className="text-white font-bold text-lg group-hover:text-[#49c5b6] transition-colors">
-          Portrait #{tokenId}
+          Blonk #{tokenId}
         </h3>
         {originalMinter && (
           <p className="text-gray-400 text-sm font-mono">
@@ -116,7 +113,7 @@ function NFTCard({ tokenId }: { tokenId: number }) {
 
 export function NFTGallery() {
   const { data: totalSupply, isLoading: isLoadingSupply } =
-    useReadPortraitsTotalSupply({
+    useReadBlonksTotalSupply({
       address: web3config.contractAddress,
     })
 
@@ -150,10 +147,10 @@ export function NFTGallery() {
           </svg>
         </div>
         <h3 className="text-xl font-bold text-white mb-2">
-          No Portraits Minted Yet
+          No Blonks Minted Yet
         </h3>
         <p className="text-gray-400 mb-6">
-          Be the first to mint a unique temporal ASCII portrait!
+          Be the first to mint a unique Blonk!
         </p>
       </div>
     )
@@ -163,7 +160,7 @@ export function NFTGallery() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-white">
-          Portrait Gallery ({totalNFTs} minted)
+          Blonks Gallery ({totalNFTs} minted)
         </h2>
         <div className="flex items-center space-x-2">
           <div className="w-2 h-2 bg-[#49c5b6] rounded-full animate-pulse"></div>
@@ -178,9 +175,7 @@ export function NFTGallery() {
       </div>
 
       <div className="text-center text-sm text-gray-500 space-y-1">
-        <p>
-          Each portrait evolves every 100 blocks, creating unique temporal art
-        </p>
+        <p>Each Blonk evolves every 100 blocks, creating unique temporal art</p>
         <p>Refresh the page to see the latest evolution state</p>
       </div>
     </div>

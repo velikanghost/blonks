@@ -14,11 +14,11 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#49c5b6]">
-            Temporal ASCII Portraits
+            Blonks
           </h1>
           <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
             Unique ASCII art portraits that evolve over time based on blockchain
-            progression. Each portrait is generated from your wallet address and
+            progression. Each blonk is generated from your wallet address and
             changes every 100 blocks.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
@@ -54,7 +54,7 @@ export default function Home() {
                 <div className="flex items-start space-x-3">
                   <span className="text-[#49c5b6] font-bold">1.</span>
                   <div>
-                    <h3 className="font-semibold mb-1">Mint Your Portrait</h3>
+                    <h3 className="font-semibold mb-1">Mint Your Blonk</h3>
                     <p className="text-sm text-gray-400">
                       Connect your wallet and mint a unique ASCII portrait based
                       on your address.
@@ -66,7 +66,7 @@ export default function Home() {
                   <div>
                     <h3 className="font-semibold mb-1">Watch It Evolve</h3>
                     <p className="text-sm text-gray-400">
-                      Your portrait changes every 100 blocks, creating a living
+                      Your blonk changes every 100 blocks, creating a living
                       piece of art.
                     </p>
                   </div>
@@ -76,8 +76,8 @@ export default function Home() {
                   <div>
                     <h3 className="font-semibold mb-1">Truly Unique</h3>
                     <p className="text-sm text-gray-400">
-                      Each portrait is generated from your wallet address - no
-                      two are alike.
+                      Each blonk is generated from your wallet address - no two
+                      blonks are alike.
                     </p>
                   </div>
                 </div>
@@ -108,11 +108,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Gallery Section */}
-        <div className="border-t border-gray-800 pt-12">
-          <NFTGallery />
         </div>
       </div>
     </main>

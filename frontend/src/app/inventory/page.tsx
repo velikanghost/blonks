@@ -4,7 +4,7 @@ import { useAccount } from 'wagmi'
 import { useReadContract } from 'wagmi'
 import { Address } from 'viem'
 import { web3config } from '@/dapp.config'
-import { portraitsAbi } from '@/contracts-generated'
+import { blonksAbi } from '@/contracts-generated'
 import { PortraitsMintCard } from '@/components/PortraitsMintCard'
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
@@ -34,7 +34,7 @@ function GetTokenURI({ tokenId }: { tokenId: number }) {
     error,
   } = useReadContract({
     address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'tokenURI',
     args: [BigInt(tokenId)],
   })
@@ -90,39 +90,6 @@ function GetTokenURI({ tokenId }: { tokenId: number }) {
   )
 }
 
-function GetAndShowToken({
-  address,
-  tokenId,
-}: {
-  address: string
-  tokenId: number
-}) {
-  console.log('GetAndShowToken called:', { address, tokenId })
-
-  const {
-    data: owner,
-    isLoading: isLoadingOwner,
-    isError: isErrorOwner,
-    error: ownerError,
-  } = useReadContract({
-    address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
-    functionName: 'ownerOf',
-    args: [BigInt(tokenId)],
-  })
-
-  console.log('ownerOf result:', {
-    owner,
-    isLoadingOwner,
-    isErrorOwner,
-    ownerError,
-  })
-
-  if (isLoadingOwner || isErrorOwner || owner !== address) return null
-
-  return <GetTokenURI tokenId={tokenId} />
-}
-
 function GetAndShowTokenByIndex({
   address,
   tokenNumber,
@@ -130,11 +97,6 @@ function GetAndShowTokenByIndex({
   address: string
   tokenNumber: number
 }) {
-  console.log('GetAndShowTokenByIndex called:', {
-    address,
-    tokenNumber,
-  })
-
   const {
     data: tokenId,
     isLoading: isLoadingToken,
@@ -142,7 +104,7 @@ function GetAndShowTokenByIndex({
     error: tokenError,
   } = useReadContract({
     address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'tokenOfOwnerByIndex',
     args: [address as Address, BigInt(tokenNumber)],
   })
@@ -172,7 +134,7 @@ function ShowMyTokens({ address }: { address: string }) {
     error,
   } = useReadContract({
     address: web3config.contractAddress as Address,
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'balanceOf',
     args: [address as Address],
   })

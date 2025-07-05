@@ -7,7 +7,7 @@ export default defineConfig({
     foundry({
       project: '../contracts',
       artifacts: 'out',
-      include: ['Gatherers.json', 'Portraits.json'],
+      include: ['Blonks.json'],
     }),
     react(),
   ],

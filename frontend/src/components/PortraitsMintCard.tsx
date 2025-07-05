@@ -7,10 +7,10 @@ import {
 } from 'wagmi'
 import { web3config } from '@/dapp.config'
 import {
-  portraitsAbi,
-  useReadPortraitsHasAddressMinted,
-  useReadPortraitsTotalSupply,
-  useReadPortraitsMaxSupply,
+  blonksAbi,
+  useReadBlonksHasAddressMinted,
+  useReadBlonksTotalSupply,
+  useReadBlonksMaxSupply,
 } from '@/contracts-generated'
 import { parseEther } from 'viem'
 
@@ -25,7 +25,7 @@ export function PortraitsMintCard() {
 
   // Check if user has already minted
   const { data: hasAlreadyMinted, isLoading: isCheckingMint } =
-    useReadPortraitsHasAddressMinted({
+    useReadBlonksHasAddressMinted({
       address: web3config.contractAddress,
       args: address ? [address] : undefined,
       query: {
@@ -34,10 +34,10 @@ export function PortraitsMintCard() {
     })
 
   // Get total supply and max supply for progress
-  const { data: totalSupply } = useReadPortraitsTotalSupply({
+  const { data: totalSupply } = useReadBlonksTotalSupply({
     address: web3config.contractAddress,
   })
-  const { data: maxSupply } = useReadPortraitsMaxSupply({
+  const { data: maxSupply } = useReadBlonksMaxSupply({
     address: web3config.contractAddress,
   })
 
@@ -46,7 +46,7 @@ export function PortraitsMintCard() {
 
     writeContract({
       address: web3config.contractAddress,
-      abi: portraitsAbi,
+      abi: blonksAbi,
       functionName: 'mint',
       value: parseEther('0.01'), // 0.01 ETH mint price
     })

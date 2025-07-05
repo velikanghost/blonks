@@ -2,10 +2,10 @@
 
 import { useAccount, useWriteContract } from 'wagmi'
 import {
-  useReadPortraits,
-  useReadPortraitsTokenUri,
-  useReadPortraitsOwnerOf,
-  portraitsAbi,
+  useReadBlonks,
+  useReadBlonksTokenUri,
+  useReadBlonksOwnerOf,
+  blonksAbi,
 } from '../contracts-generated'
 import { useState } from 'react'
 import { web3config } from '../dapp.config'
@@ -27,7 +27,7 @@ export function Grid() {
     if (!address) return // Not connected
     mint({
       address: web3config.contractAddress as `0x${string}`,
-      abi: portraitsAbi,
+      abi: blonksAbi,
       functionName: 'mint',
     })
   }
@@ -54,10 +54,10 @@ export function Grid() {
           {grid.map((row, x) =>
             row.map(({ y }) => {
               const tokenId = x * GRID_SIZE + y
-              const { data: owner } = useReadPortraitsOwnerOf({
+              const { data: owner } = useReadBlonksOwnerOf({
                 args: [BigInt(tokenId)],
               })
-              const { data: tokenUri } = useReadPortraitsTokenUri({
+              const { data: tokenUri } = useReadBlonksTokenUri({
                 args: [BigInt(tokenId)],
               })
 

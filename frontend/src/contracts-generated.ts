@@ -6,10 +6,10 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Portraits
+// Blonks
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const portraitsAbi = [
+export const blonksAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'function',
@@ -371,344 +371,342 @@ export const portraitsAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__
  */
-export const useReadPortraits = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonks = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"MAX_SUPPLY"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"MAX_SUPPLY"`
  */
-export const useReadPortraitsMaxSupply = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksMaxSupply = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'MAX_SUPPLY',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"MINT_PRICE"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"MINT_PRICE"`
  */
-export const useReadPortraitsMintPrice = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksMintPrice = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'MINT_PRICE',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"balanceOf"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"balanceOf"`
  */
-export const useReadPortraitsBalanceOf = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'balanceOf',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"getApproved"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"getApproved"`
  */
-export const useReadPortraitsGetApproved = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksGetApproved = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'getApproved',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"hasAddressMinted"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"hasAddressMinted"`
  */
-export const useReadPortraitsHasAddressMinted =
+export const useReadBlonksHasAddressMinted =
   /*#__PURE__*/ createUseReadContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'hasAddressMinted',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"hasMinted"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"hasMinted"`
  */
-export const useReadPortraitsHasMinted = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksHasMinted = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'hasMinted',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"isApprovedForAll"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"isApprovedForAll"`
  */
-export const useReadPortraitsIsApprovedForAll =
+export const useReadBlonksIsApprovedForAll =
   /*#__PURE__*/ createUseReadContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'isApprovedForAll',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"name"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"name"`
  */
-export const useReadPortraitsName = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksName = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'name',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"originalMinter"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"originalMinter"`
  */
-export const useReadPortraitsOriginalMinter =
-  /*#__PURE__*/ createUseReadContract({
-    abi: portraitsAbi,
-    functionName: 'originalMinter',
-  })
+export const useReadBlonksOriginalMinter = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
+  functionName: 'originalMinter',
+})
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"owner"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"owner"`
  */
-export const useReadPortraitsOwner = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksOwner = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'owner',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"ownerOf"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"ownerOf"`
  */
-export const useReadPortraitsOwnerOf = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksOwnerOf = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'ownerOf',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"supportsInterface"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"supportsInterface"`
  */
-export const useReadPortraitsSupportsInterface =
+export const useReadBlonksSupportsInterface =
   /*#__PURE__*/ createUseReadContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'supportsInterface',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"symbol"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"symbol"`
  */
-export const useReadPortraitsSymbol = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'symbol',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"tokenByIndex"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"tokenByIndex"`
  */
-export const useReadPortraitsTokenByIndex = /*#__PURE__*/ createUseReadContract(
-  { abi: portraitsAbi, functionName: 'tokenByIndex' },
-)
+export const useReadBlonksTokenByIndex = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
+  functionName: 'tokenByIndex',
+})
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"tokenOfOwnerByIndex"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"tokenOfOwnerByIndex"`
  */
-export const useReadPortraitsTokenOfOwnerByIndex =
+export const useReadBlonksTokenOfOwnerByIndex =
   /*#__PURE__*/ createUseReadContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'tokenOfOwnerByIndex',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"tokenURI"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"tokenURI"`
  */
-export const useReadPortraitsTokenUri = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksTokenUri = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'tokenURI',
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"totalSupply"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"totalSupply"`
  */
-export const useReadPortraitsTotalSupply = /*#__PURE__*/ createUseReadContract({
-  abi: portraitsAbi,
+export const useReadBlonksTotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
   functionName: 'totalSupply',
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__
  */
-export const useWritePortraits = /*#__PURE__*/ createUseWriteContract({
-  abi: portraitsAbi,
+export const useWriteBlonks = /*#__PURE__*/ createUseWriteContract({
+  abi: blonksAbi,
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"approve"`
  */
-export const useWritePortraitsApprove = /*#__PURE__*/ createUseWriteContract({
-  abi: portraitsAbi,
+export const useWriteBlonksApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: blonksAbi,
   functionName: 'approve',
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"mint"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"mint"`
  */
-export const useWritePortraitsMint = /*#__PURE__*/ createUseWriteContract({
-  abi: portraitsAbi,
+export const useWriteBlonksMint = /*#__PURE__*/ createUseWriteContract({
+  abi: blonksAbi,
   functionName: 'mint',
 })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"renounceOwnership"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export const useWritePortraitsRenounceOwnership =
+export const useWriteBlonksRenounceOwnership =
   /*#__PURE__*/ createUseWriteContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'renounceOwnership',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"safeTransferFrom"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"safeTransferFrom"`
  */
-export const useWritePortraitsSafeTransferFrom =
+export const useWriteBlonksSafeTransferFrom =
   /*#__PURE__*/ createUseWriteContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'safeTransferFrom',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"setApprovalForAll"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"setApprovalForAll"`
  */
-export const useWritePortraitsSetApprovalForAll =
+export const useWriteBlonksSetApprovalForAll =
   /*#__PURE__*/ createUseWriteContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'setApprovalForAll',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const useWritePortraitsTransferFrom =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: portraitsAbi,
-    functionName: 'transferFrom',
-  })
+export const useWriteBlonksTransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: blonksAbi,
+  functionName: 'transferFrom',
+})
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"transferOwnership"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"transferOwnership"`
  */
-export const useWritePortraitsTransferOwnership =
+export const useWriteBlonksTransferOwnership =
   /*#__PURE__*/ createUseWriteContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'transferOwnership',
   })
 
 /**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"withdraw"`
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"withdraw"`
  */
-export const useWritePortraitsWithdraw = /*#__PURE__*/ createUseWriteContract({
-  abi: portraitsAbi,
+export const useWriteBlonksWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: blonksAbi,
   functionName: 'withdraw',
 })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__
  */
-export const useSimulatePortraits = /*#__PURE__*/ createUseSimulateContract({
-  abi: portraitsAbi,
+export const useSimulateBlonks = /*#__PURE__*/ createUseSimulateContract({
+  abi: blonksAbi,
 })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"approve"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"approve"`
  */
-export const useSimulatePortraitsApprove =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
-    functionName: 'approve',
-  })
-
-/**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"mint"`
- */
-export const useSimulatePortraitsMint = /*#__PURE__*/ createUseSimulateContract(
-  { abi: portraitsAbi, functionName: 'mint' },
+export const useSimulateBlonksApprove = /*#__PURE__*/ createUseSimulateContract(
+  { abi: blonksAbi, functionName: 'approve' },
 )
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"renounceOwnership"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"mint"`
  */
-export const useSimulatePortraitsRenounceOwnership =
+export const useSimulateBlonksMint = /*#__PURE__*/ createUseSimulateContract({
+  abi: blonksAbi,
+  functionName: 'mint',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"renounceOwnership"`
+ */
+export const useSimulateBlonksRenounceOwnership =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'renounceOwnership',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"safeTransferFrom"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"safeTransferFrom"`
  */
-export const useSimulatePortraitsSafeTransferFrom =
+export const useSimulateBlonksSafeTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'safeTransferFrom',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"setApprovalForAll"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"setApprovalForAll"`
  */
-export const useSimulatePortraitsSetApprovalForAll =
+export const useSimulateBlonksSetApprovalForAll =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'setApprovalForAll',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"transferFrom"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"transferFrom"`
  */
-export const useSimulatePortraitsTransferFrom =
+export const useSimulateBlonksTransferFrom =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'transferFrom',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"transferOwnership"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"transferOwnership"`
  */
-export const useSimulatePortraitsTransferOwnership =
+export const useSimulateBlonksTransferOwnership =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'transferOwnership',
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"withdraw"`
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"withdraw"`
  */
-export const useSimulatePortraitsWithdraw =
+export const useSimulateBlonksWithdraw =
   /*#__PURE__*/ createUseSimulateContract({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     functionName: 'withdraw',
   })
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link portraitsAbi}__
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link blonksAbi}__
  */
-export const useWatchPortraitsEvent = /*#__PURE__*/ createUseWatchContractEvent(
-  { abi: portraitsAbi },
-)
+export const useWatchBlonksEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: blonksAbi,
+})
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link portraitsAbi}__ and `eventName` set to `"Approval"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link blonksAbi}__ and `eventName` set to `"Approval"`
  */
-export const useWatchPortraitsApprovalEvent =
+export const useWatchBlonksApprovalEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     eventName: 'Approval',
   })
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link portraitsAbi}__ and `eventName` set to `"ApprovalForAll"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link blonksAbi}__ and `eventName` set to `"ApprovalForAll"`
  */
-export const useWatchPortraitsApprovalForAllEvent =
+export const useWatchBlonksApprovalForAllEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     eventName: 'ApprovalForAll',
   })
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link portraitsAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link blonksAbi}__ and `eventName` set to `"OwnershipTransferred"`
  */
-export const useWatchPortraitsOwnershipTransferredEvent =
+export const useWatchBlonksOwnershipTransferredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     eventName: 'OwnershipTransferred',
   })
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link portraitsAbi}__ and `eventName` set to `"Transfer"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link blonksAbi}__ and `eventName` set to `"Transfer"`
  */
-export const useWatchPortraitsTransferEvent =
+export const useWatchBlonksTransferEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
-    abi: portraitsAbi,
+    abi: blonksAbi,
     eventName: 'Transfer',
   })
