@@ -23,9 +23,9 @@ contract Deploy is Script {
     function run() external {
         NetworkConfig memory config = getDeploymentConfig();
 
-        console.log("=== Portraits NFT Deployment ===");
-        console.log("Network:", config.networkName);
-        console.log("Deployer:", config.deployer);
+        console2.log("=== Portraits NFT Deployment ===");
+        console2.log("Network:", config.networkName);
+        console2.log("Deployer:", config.deployer);
 
         vm.startBroadcast();
         
@@ -33,6 +33,13 @@ contract Deploy is Script {
         
         vm.stopBroadcast();
 
-        console.log("Portraits Contract:", portraits);
+        logDeployment(address(portraits), config);
+    }
+
+    function logDeployment(address portraits, NetworkConfig memory config) internal pure {
+        console2.log("\n=== Deployment Summary ===");
+        console2.log("Network:", config.networkName);
+        console2.log("Deployer:", config.deployer);
+        console2.log("Portraits Contract:", portraits);
     }
 }

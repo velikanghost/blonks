@@ -1,5 +1,5 @@
 {
-  "name": "nft-mint",
+  "name": "blonks-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "wagmi": "cd ../contracts && forge clean && forge build && cd frontend && wagmi generate"
+    "wagmi": "npx wagmi generate"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^2.2.8",

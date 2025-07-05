@@ -51,6 +51,20 @@ export const portraitsAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'user', internalType: 'address', type: 'address' }],
+    name: 'hasAddressMinted',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'hasMinted',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'owner', internalType: 'address', type: 'address' },
       { name: 'operator', internalType: 'address', type: 'address' },
@@ -393,6 +407,23 @@ export const useReadPortraitsBalanceOf = /*#__PURE__*/ createUseReadContract({
 export const useReadPortraitsGetApproved = /*#__PURE__*/ createUseReadContract({
   abi: portraitsAbi,
   functionName: 'getApproved',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"hasAddressMinted"`
+ */
+export const useReadPortraitsHasAddressMinted =
+  /*#__PURE__*/ createUseReadContract({
+    abi: portraitsAbi,
+    functionName: 'hasAddressMinted',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link portraitsAbi}__ and `functionName` set to `"hasMinted"`
+ */
+export const useReadPortraitsHasMinted = /*#__PURE__*/ createUseReadContract({
+  abi: portraitsAbi,
+  functionName: 'hasMinted',
 })
 
 /**

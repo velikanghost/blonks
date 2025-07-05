@@ -6,7 +6,6 @@ export const config = getDefaultConfig({
   appName: 'Gatherers',
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
   chains: [monadTestnet],
-  ssr: true,
 })
 
 export const myRainbowTheme = darkTheme({

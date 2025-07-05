@@ -9,7 +9,7 @@ import {
 } from '../contracts-generated'
 import { useState } from 'react'
 import { web3config } from '../dapp.config'
-import { NFTViewer } from './NFTViewer'
+import { NFTGallery } from './NFTViewer'
 
 const GRID_SIZE = 10
 
@@ -81,12 +81,7 @@ export function Grid() {
         </div>
       </div>
 
-      {viewingTokenUri && (
-        <NFTViewer
-          tokenUri={viewingTokenUri}
-          onClose={() => setViewingTokenUri(null)}
-        />
-      )}
+      {viewingTokenUri && <NFTGallery />}
     </div>
   )
 }

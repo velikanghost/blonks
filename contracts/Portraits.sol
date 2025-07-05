@@ -24,6 +24,9 @@ contract Portraits is ERC721Enumerable, ReentrancyGuard, Ownable {
 
     // Mapping from token ID to original minter address
     mapping(uint256 => address) public originalMinter;
+    
+    // Mapping to track which addresses have already minted
+    mapping(address => bool) public hasMinted;
 
     // Base mint price
     uint256 public constant MINT_PRICE = 0.01 ether;
@@ -31,17 +34,26 @@ contract Portraits is ERC721Enumerable, ReentrancyGuard, Ownable {
     constructor() ERC721("Temporal ASCII Portraits", "TAP") Ownable(msg.sender) {}
 
     /**
-     * @dev Mint a new portrait NFT
+     * @dev Mint a new portrait NFT - limited to one per wallet
      */
     function mint() external payable nonReentrant {
         require(msg.value >= MINT_PRICE, "Insufficient payment");
         require(_currentTokenId < MAX_SUPPLY, "Max supply reached");
+        require(!hasMinted[msg.sender], "Address has already minted");
 
         uint256 tokenId = _currentTokenId + 1;
         _currentTokenId = tokenId;
         
+        hasMinted[msg.sender] = true;
         originalMinter[tokenId] = msg.sender;
         _safeMint(msg.sender, tokenId);
+    }
+
+    /**
+     * @dev Check if an address has already minted
+     */
+    function hasAddressMinted(address user) external view returns (bool) {
+        return hasMinted[user];
     }
 
     /**

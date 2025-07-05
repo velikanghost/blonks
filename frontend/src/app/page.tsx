@@ -1,6 +1,7 @@
 'use client'
 
 import { PortraitsMintCard } from '../components/PortraitsMintCard'
+import { NFTGallery } from '../components/NFTViewer'
 import Navbar from '@/components/Navbar'
 
 export default function Home() {
@@ -9,34 +10,109 @@ export default function Home() {
       {/* Navbar */}
       <Navbar />
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto p-8">
-        <div className="grid md:grid-cols-2 gap-8 items-start">
-          <PortraitsMintCard />
-          <div className="bg-[#000000] p-8 rounded-lg border border-[#49c5b6] space-y-4">
-            <div className="aspect-square bg-gray-800 rounded-lg flex items-center justify-center border border-[#49c5b6]">
-              <svg
-                className="w-24 h-24 text-[#49c5b6]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-            <h2 className="text-2xl font-bold">Temporal ASCII Portraits</h2>
-            <p className="text-gray-400">
-              Join the Temporal ASCII Portraits collection - where each NFT is a
-              unique ASCII art portrait that evolves over time based on
-              blockchain progression. Your portrait will subtly change every 100
-              blocks, creating a dynamic piece of on-chain art.
-            </p>
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-8 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#49c5b6]">
+            Temporal ASCII Portraits
+          </h1>
+          <p className="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+            Unique ASCII art portraits that evolve over time based on blockchain
+            progression. Each portrait is generated from your wallet address and
+            changes every 100 blocks.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+            <span className="bg-gray-800 px-3 py-1 rounded">
+              🎨 AI Generated
+            </span>
+            <span className="bg-gray-800 px-3 py-1 rounded">
+              ⏰ Time-Based Evolution
+            </span>
+            <span className="bg-gray-800 px-3 py-1 rounded">
+              🔐 One Per Wallet
+            </span>
+            <span className="bg-gray-800 px-3 py-1 rounded">
+              ⛓️ Fully On-Chain
+            </span>
           </div>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+          {/* Mint Section */}
+          <div className="lg:col-span-1">
+            <PortraitsMintCard />
+          </div>
+
+          {/* Description Section */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
+              <h2 className="text-2xl font-bold mb-4 text-[#49c5b6]">
+                How It Works
+              </h2>
+              <div className="space-y-4 text-gray-300">
+                <div className="flex items-start space-x-3">
+                  <span className="text-[#49c5b6] font-bold">1.</span>
+                  <div>
+                    <h3 className="font-semibold mb-1">Mint Your Portrait</h3>
+                    <p className="text-sm text-gray-400">
+                      Connect your wallet and mint a unique ASCII portrait based
+                      on your address.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <span className="text-[#49c5b6] font-bold">2.</span>
+                  <div>
+                    <h3 className="font-semibold mb-1">Watch It Evolve</h3>
+                    <p className="text-sm text-gray-400">
+                      Your portrait changes every 100 blocks, creating a living
+                      piece of art.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <span className="text-[#49c5b6] font-bold">3.</span>
+                  <div>
+                    <h3 className="font-semibold mb-1">Truly Unique</h3>
+                    <p className="text-sm text-gray-400">
+                      Each portrait is generated from your wallet address - no
+                      two are alike.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-900/50 p-6 rounded-lg border border-gray-800">
+              <h3 className="font-bold mb-3 text-[#49c5b6]">
+                Technical Details
+              </h3>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-400">Price:</span>
+                  <span className="text-white ml-2">0.01 ETH</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Max Supply:</span>
+                  <span className="text-white ml-2">10,000</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Per Wallet:</span>
+                  <span className="text-white ml-2">1 NFT</span>
+                </div>
+                <div>
+                  <span className="text-gray-400">Evolution:</span>
+                  <span className="text-white ml-2">Every 100 blocks</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Gallery Section */}
+        <div className="border-t border-gray-800 pt-12">
+          <NFTGallery />
         </div>
       </div>
     </main>
