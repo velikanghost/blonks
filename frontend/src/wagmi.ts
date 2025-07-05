@@ -4,9 +4,9 @@ import { monadTestnet } from 'viem/chains'
 
 export const config = getDefaultConfig({
   appName: 'Gatherers',
-  projectId: '2f999af39372f2109a5b750f9a87709f',
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
   chains: [monadTestnet],
-  ssr: true, // Enable server-side rendering mode
+  ssr: true,
 })
 
 export const myRainbowTheme = darkTheme({

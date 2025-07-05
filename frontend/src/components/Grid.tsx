@@ -1,10 +1,11 @@
 'use client'
 
-import { useAccount } from 'wagmi'
+import { useAccount, useWriteContract } from 'wagmi'
 import {
-  useReadGatherersOwnerOf,
-  useReadGatherersTokenUri,
-  useWriteGatherersMint,
+  useReadPortraits,
+  useReadPortraitsTokenUri,
+  useReadPortraitsOwnerOf,
+  portraitsAbi,
 } from '../contracts-generated'
 import { useState } from 'react'
 import { web3config } from '../dapp.config'
@@ -14,7 +15,7 @@ const GRID_SIZE = 10
 
 export function Grid() {
   const { address } = useAccount()
-  const { writeContract: mint } = useWriteGatherersMint()
+  const { writeContract: mint } = useWriteContract()
   const [viewingTokenUri, setViewingTokenUri] = useState<string | null>(null)
 
   // Create a 10x10 grid array
@@ -26,6 +27,8 @@ export function Grid() {
     if (!address) return // Not connected
     mint({
       address: web3config.contractAddress as `0x${string}`,
+      abi: portraitsAbi,
+      functionName: 'mint',
     })
   }
 
@@ -51,10 +54,10 @@ export function Grid() {
           {grid.map((row, x) =>
             row.map(({ y }) => {
               const tokenId = x * GRID_SIZE + y
-              const { data: owner } = useReadGatherersOwnerOf({
+              const { data: owner } = useReadPortraitsOwnerOf({
                 args: [BigInt(tokenId)],
               })
-              const { data: tokenUri } = useReadGatherersTokenUri({
+              const { data: tokenUri } = useReadPortraitsTokenUri({
                 args: [BigInt(tokenId)],
               })
 

@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.21;
+pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
-import "../contracts/Gatherers.sol";
+import "../contracts/Portraits.sol";
 
 contract Deploy is Script {
     struct NetworkConfig {
@@ -23,23 +23,16 @@ contract Deploy is Script {
     function run() external {
         NetworkConfig memory config = getDeploymentConfig();
 
-        console.log("=== Gatherers NFT Deployment ===");
+        console.log("=== Portraits NFT Deployment ===");
         console.log("Network:", config.networkName);
         console.log("Deployer:", config.deployer);
 
         vm.startBroadcast();
         
-        Gatherers gatherers = new Gatherers(config.deployer);
+        Portraits portraits = new Portraits();
         
         vm.stopBroadcast();
 
-        logDeployment(address(gatherers), config);
-    }
-
-    function logDeployment(address gatherers, NetworkConfig memory config) internal pure {
-        console.log("\n=== Deployment Summary ===");
-        console.log("Network:", config.networkName);
-        console.log("Deployer:", config.deployer);
-        console.log("Gatherers Contract:", gatherers);
+        console.log("Portraits Contract:", portraits);
     }
 }

@@ -15,7 +15,7 @@ export function PortraitsMintCard() {
 
   const handleMint = async () => {
     writeContract({
-      address: web3config.portraitsContractAddress,
+      address: web3config.contractAddress,
       abi: portraitsAbi,
       functionName: 'mint',
       value: parseEther('0.01'), // 0.01 ETH mint price

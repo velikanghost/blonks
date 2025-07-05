@@ -4,21 +4,16 @@ import { useAccount } from 'wagmi'
 import { useReadContract } from 'wagmi'
 import { Address } from 'viem'
 import { web3config } from '@/dapp.config'
-import { gatherersAbi } from '@/contracts-generated'
 import { portraitsAbi } from '@/contracts-generated'
-import { MintCard } from '@/components/MintCard'
 import { PortraitsMintCard } from '@/components/PortraitsMintCard'
 import { useState } from 'react'
 import Navbar from '@/components/Navbar'
 
-function getImageURL(
-  mintedTokenURI: string,
-  isPortrait: boolean,
-): string | undefined {
+function getImageURL(mintedTokenURI: string): string | undefined {
   try {
     console.log('Raw tokenURI:', mintedTokenURI)
 
-    // Both Portraits and Gatherers return data:application/json;base64,<data>
+    // Portraits return data:application/json;base64,<data>
     // We need to decode the base64 JSON and extract the image URL
     const base64Data = mintedTokenURI.split(',')[1]
     console.log('Base64 data:', base64Data)
@@ -31,77 +26,66 @@ function getImageURL(
   }
 }
 
-function GetTokenURI({
-  tokenId,
-  isPortrait = false,
-}: {
-  tokenId: number
-  isPortrait?: boolean
-}) {
-  console.log('GetTokenURI called:', { tokenId, isPortrait })
-
+function GetTokenURI({ tokenId }: { tokenId: number }) {
   const {
     data: tokenURI,
-    isLoading: isLoadingTokenURI,
-    isError: isErrorTokenURI,
-    error: uriError,
+    isLoading,
+    isError,
+    error,
   } = useReadContract({
-    address: (isPortrait
-      ? web3config.portraitsContractAddress
-      : web3config.contractAddress) as Address,
-    abi: isPortrait ? portraitsAbi : gatherersAbi,
+    address: web3config.contractAddress as Address,
+    abi: portraitsAbi,
     functionName: 'tokenURI',
     args: [BigInt(tokenId)],
   })
 
-  console.log('tokenURI result:', {
-    tokenURI,
-    isLoadingTokenURI,
-    isErrorTokenURI,
-    uriError,
-  })
+  console.log('tokenURI result:', { tokenURI, isLoading, isError, error })
 
-  if (isLoadingTokenURI) {
+  if (isLoading) {
     return (
-      <div className="w-[450px] h-[450px] flex items-center justify-center border border-[#49c5b6] rounded-lg bg-black">
+      <div className="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center border border-[#49c5b6]">
         <div className="text-[#49c5b6]">Loading...</div>
       </div>
     )
   }
 
-  if (isErrorTokenURI) {
-    console.error('TokenURI error:', uriError)
-    // If the error is because the token doesn't exist, just return null
-    if (uriError?.message?.includes('Token does not exist')) {
-      return null
-    }
+  if (isError) {
+    console.error('Error loading tokenURI:', error)
     return (
-      <div className="w-[450px] h-[450px] flex items-center justify-center border border-red-500 rounded-lg bg-black">
-        <div className="text-red-500">Failed to load</div>
+      <div className="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center border border-[#49c5b6]">
+        <div className="text-red-500">Error loading NFT</div>
       </div>
     )
   }
 
-  const imageUrl = getImageURL(tokenURI as string, isPortrait)
-  console.log('Processed image URL:', imageUrl)
+  if (!tokenURI) {
+    return (
+      <div className="w-full h-64 bg-gray-800 rounded-lg flex items-center justify-center border border-[#49c5b6]">
+        <div className="text-gray-500">No data</div>
+      </div>
+    )
+  }
+
+  const imageURL = getImageURL(tokenURI)
 
   return (
-    <div className="w-[450px] h-[450px] flex flex-col items-center p-4 border border-[#49c5b6] rounded-lg bg-black hover:border-2 transition-all">
-      <div className="w-full h-full flex items-center justify-center portrait-container">
-        {imageUrl ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: imageUrl.startsWith('data:image/svg+xml;base64,')
-                ? atob(imageUrl.split(',')[1])
-                : `<img src="${imageUrl}" alt="Token #${tokenId}" class="max-w-full max-h-full w-auto h-auto" />`,
-            }}
-            className="w-full h-full"
-          />
-        ) : (
-          <div className="text-red-500">Invalid image data</div>
+    <div className="w-full">
+      <div className="bg-gray-800 rounded-lg border border-[#49c5b6] p-4">
+        <div className="mb-4">
+          <h3 className="text-lg font-bold text-[#49c5b6]">
+            Portrait #{tokenId}
+          </h3>
+        </div>
+        {imageURL && (
+          <div className="w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
+            <img
+              src={imageURL}
+              alt={`Portrait #${tokenId}`}
+              className="max-w-full max-h-full object-contain"
+            />
+          </div>
         )}
       </div>
-      <div className="mt-2 text-sm text-gray-400">Token #{tokenId}</div>
     </div>
   )
 }
@@ -109,13 +93,11 @@ function GetTokenURI({
 function GetAndShowToken({
   address,
   tokenId,
-  isPortrait = false,
 }: {
   address: string
   tokenId: number
-  isPortrait?: boolean
 }) {
-  console.log('GetAndShowToken called:', { address, tokenId, isPortrait })
+  console.log('GetAndShowToken called:', { address, tokenId })
 
   const {
     data: owner,
@@ -123,10 +105,8 @@ function GetAndShowToken({
     isError: isErrorOwner,
     error: ownerError,
   } = useReadContract({
-    address: (isPortrait
-      ? web3config.portraitsContractAddress
-      : web3config.contractAddress) as Address,
-    abi: isPortrait ? portraitsAbi : gatherersAbi,
+    address: web3config.contractAddress as Address,
+    abi: portraitsAbi,
     functionName: 'ownerOf',
     args: [BigInt(tokenId)],
   })
@@ -140,44 +120,19 @@ function GetAndShowToken({
 
   if (isLoadingOwner || isErrorOwner || owner !== address) return null
 
-  return <GetTokenURI tokenId={tokenId} isPortrait={isPortrait} />
-}
-
-function VisualizeMyTokens({
-  address,
-  balance,
-  isPortrait = false,
-}: {
-  address: string
-  balance: number
-  isPortrait?: boolean
-}) {
-  // Both contracts now support tokenOfOwnerByIndex
-  const tokens = Array.from({ length: balance }, (_, i) => (
-    <GetAndShowTokenByIndex
-      key={i}
-      address={address}
-      tokenNumber={i}
-      isPortrait={isPortrait}
-    />
-  ))
-
-  return <div className="grid grid-cols-1 md:grid-cols-2 gap-8">{tokens}</div>
+  return <GetTokenURI tokenId={tokenId} />
 }
 
 function GetAndShowTokenByIndex({
   address,
   tokenNumber,
-  isPortrait = false,
 }: {
   address: string
   tokenNumber: number
-  isPortrait?: boolean
 }) {
   console.log('GetAndShowTokenByIndex called:', {
     address,
     tokenNumber,
-    isPortrait,
   })
 
   const {
@@ -186,10 +141,8 @@ function GetAndShowTokenByIndex({
     isError: isErrorToken,
     error: tokenError,
   } = useReadContract({
-    address: (isPortrait
-      ? web3config.portraitsContractAddress
-      : web3config.contractAddress) as Address,
-    abi: isPortrait ? portraitsAbi : gatherersAbi,
+    address: web3config.contractAddress as Address,
+    abi: portraitsAbi,
     functionName: 'tokenOfOwnerByIndex',
     args: [address as Address, BigInt(tokenNumber)],
   })
@@ -203,22 +156,13 @@ function GetAndShowTokenByIndex({
 
   if (isLoadingToken || isErrorToken) return null
 
-  return <GetTokenURI tokenId={Number(tokenId)} isPortrait={isPortrait} />
+  return <GetTokenURI tokenId={Number(tokenId)} />
 }
 
-function ShowMyTokens({
-  address,
-  isPortrait = false,
-}: {
-  address: string
-  isPortrait?: boolean
-}) {
+function ShowMyTokens({ address }: { address: string }) {
   console.log('ShowMyTokens called with:', {
     address,
-    isPortrait,
-    contractAddress: isPortrait
-      ? web3config.portraitsContractAddress
-      : web3config.contractAddress,
+    contractAddress: web3config.contractAddress,
   })
 
   const {
@@ -227,10 +171,8 @@ function ShowMyTokens({
     isError: isErrorTokens,
     error,
   } = useReadContract({
-    address: (isPortrait
-      ? web3config.portraitsContractAddress
-      : web3config.contractAddress) as Address,
-    abi: isPortrait ? portraitsAbi : gatherersAbi,
+    address: web3config.contractAddress as Address,
+    abi: portraitsAbi,
     functionName: 'balanceOf',
     args: [address as Address],
   })
@@ -265,8 +207,7 @@ function ShowMyTokens({
   if (balance === 0) {
     return (
       <div className="text-center text-gray-400">
-        You don't have any {isPortrait ? 'Portraits' : 'Gatherers'} yet. Head to
-        the mint page to get started!
+        You don't have any Portraits yet. Head to the mint page to get started!
       </div>
     )
   }
@@ -275,65 +216,61 @@ function ShowMyTokens({
     <div className="w-full max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-white">My Collection</h1>
-        <div className="text-[#49c5b6]">
-          {balance} {isPortrait ? 'Portraits' : 'Gatherers'}
-        </div>
+        <div className="text-[#49c5b6]">{balance} Portraits</div>
       </div>
-      <VisualizeMyTokens
-        address={address}
-        balance={balance}
-        isPortrait={isPortrait}
-      />
+      <VisualizeMyTokens address={address} balance={balance} />
     </div>
   )
 }
 
-export default function MyTokens() {
-  const { isConnected, address } = useAccount()
-  const [activeTab, setActiveTab] = useState<'gatherers' | 'portraits'>(
-    'gatherers',
+function VisualizeMyTokens({
+  address,
+  balance,
+}: {
+  address: string
+  balance: number
+}) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {Array.from({ length: balance }, (_, i) => (
+        <GetAndShowTokenByIndex key={i} address={address} tokenNumber={i} />
+      ))}
+    </div>
   )
+}
+
+export default function Inventory() {
+  const { address } = useAccount()
+  const [showMint, setShowMint] = useState(false)
 
   return (
-    <main className="min-h-screen bg-[#000000] text-white font-mono">
+    <div className="min-h-screen bg-[#000000] text-white font-mono">
       <Navbar />
       <div className="max-w-7xl mx-auto p-8">
-        {!isConnected ? (
-          <div className="text-center text-gray-400 mt-20">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-4xl font-bold">My Portraits</h1>
+          <button
+            onClick={() => setShowMint(!showMint)}
+            className="px-6 py-3 bg-[#49c5b6] text-black rounded-lg font-bold hover:opacity-90 transition-opacity"
+          >
+            {showMint ? 'Hide Mint' : 'Show Mint'}
+          </button>
+        </div>
+
+        {showMint && (
+          <div className="mb-8">
+            <PortraitsMintCard />
+          </div>
+        )}
+
+        {address ? (
+          <ShowMyTokens address={address} />
+        ) : (
+          <div className="text-center text-gray-400">
             Connect your wallet to view your collection
           </div>
-        ) : (
-          <>
-            {/* Tabs */}
-            <div className="flex gap-4 mb-8">
-              <button
-                onClick={() => setActiveTab('gatherers')}
-                className={`px-6 py-3 rounded-lg font-bold transition-colors ${
-                  activeTab === 'gatherers'
-                    ? 'bg-[#49c5b6] text-black'
-                    : 'border border-[#49c5b6] text-[#49c5b6] hover:bg-[#49c5b6] hover:text-black'
-                }`}
-              >
-                Gatherers
-              </button>
-              <button
-                onClick={() => setActiveTab('portraits')}
-                className={`px-6 py-3 rounded-lg font-bold transition-colors ${
-                  activeTab === 'portraits'
-                    ? 'bg-[#49c5b6] text-black'
-                    : 'border border-[#49c5b6] text-[#49c5b6] hover:bg-[#49c5b6] hover:text-black'
-                }`}
-              >
-                Portraits
-              </button>
-            </div>
-            <ShowMyTokens
-              address={address as string}
-              isPortrait={activeTab === 'portraits'}
-            />
-          </>
         )}
       </div>
-    </main>
+    </div>
   )
 }

@@ -1,10 +1,8 @@
 {
-    "name": "gatherers",
+    "name": "portraits",
     "version": "0.0.1",
     "private": true,
-    "scripts": {
-        "slice-map": "ts-node scripts/slice-map.ts"
-    },
+    "scripts": {},
     "devDependencies": {
         "ts-node": "^10.9.1",
         "typescript": "^5.4.0",

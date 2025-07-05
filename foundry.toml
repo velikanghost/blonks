@@ -1,6 +1,6 @@
 [profile.default]
 src = "contracts"
-out = "out"
+out = "contracts/out"
 libs = ["lib"]
 ffi = true
 fs_permissions = [{ access = "read-write", path = "./test"}]

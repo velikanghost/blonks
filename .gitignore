@@ -139,9 +139,9 @@ tmp*
 .DS_Store
 
 # foundry
+lib/
 **/out
 **/cache
-
 
 doc
 broadcast
