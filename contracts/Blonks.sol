@@ -59,7 +59,103 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
         uint256 tokenId,
         string memory encodedSvg
     ) internal view returns (string memory) {
-        uint256 variation = (block.number / 100) % 5;
+        address minter = originalMinter[tokenId];
+        uint256 variation = (block.number / 100) % 20; // Increased from 5 to 20
+
+        // Get last 3 characters of minter address
+        string memory minterStr = Strings.toHexString(
+            uint256(uint160(minter)),
+            20
+        );
+        string memory addressSuffix = string(
+            abi.encodePacked(
+                bytes(minterStr)[39], // 3rd from end
+                bytes(minterStr)[40], // 2nd from end
+                bytes(minterStr)[41] // last character
+            )
+        );
+
+        // Get background type
+        bytes32 bgSeed = keccak256(
+            abi.encodePacked(minter, "background", block.number / 200)
+        );
+        uint256 bgType = uint256(bgSeed) % 3;
+        string memory backgroundType;
+        if (bgType == 0) {
+            backgroundType = "Linear Gradient";
+        } else if (bgType == 1) {
+            backgroundType = "Radial Gradient";
+        } else {
+            backgroundType = "Solid Color";
+        }
+
+        // Get text color type
+        bytes32 textSeed = keccak256(
+            abi.encodePacked(minter, "textcolor", block.number / 200)
+        );
+        uint256 textType = uint256(textSeed) % 8;
+        string memory textColorType;
+        if (textType == 0) {
+            textColorType = "Neon Mint";
+        } else if (textType == 1) {
+            textColorType = "Sunset";
+        } else if (textType == 2) {
+            textColorType = "Pastel Dream";
+        } else if (textType == 3) {
+            textColorType = "Pink Glow";
+        } else if (textType == 4) {
+            textColorType = "Lime Burst";
+        } else if (textType == 5) {
+            textColorType = "Peach Fade";
+        } else if (textType == 6) {
+            textColorType = "Aqua Mist";
+        } else {
+            textColorType = "Pure White";
+        }
+
+        // Check for special rare traits
+        bytes32 specialSeed = keccak256(
+            abi.encodePacked(minter, "special", tokenId)
+        );
+        uint256 specialRoll = uint256(specialSeed) % 100;
+
+        string memory specialTraits = "";
+        if (specialRoll < 1) {
+            // 1% chance for Diamond Frame
+            specialTraits = string(
+                abi.encodePacked(
+                    specialTraits,
+                    ',{"trait_type":"Special","value":"Diamond Frame"}'
+                )
+            );
+        } else if (specialRoll < 6) {
+            // 5% chance for Golden Glow
+            specialTraits = string(
+                abi.encodePacked(
+                    specialTraits,
+                    ',{"trait_type":"Special","value":"Golden Glow"}'
+                )
+            );
+        }
+
+        // Check for time-based rarity
+        if (variation >= 18) {
+            // Ultra rare variations (2 out of 20 = 10%)
+            specialTraits = string(
+                abi.encodePacked(
+                    specialTraits,
+                    ',{"trait_type":"Rarity","value":"Ultra Rare"}'
+                )
+            );
+        } else if (variation >= 15) {
+            // Rare variations (3 out of 20 = 15%)
+            specialTraits = string(
+                abi.encodePacked(
+                    specialTraits,
+                    ',{"trait_type":"Rarity","value":"Rare"}'
+                )
+            );
+        }
 
         return
             string(
@@ -71,7 +167,15 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
                     encodedSvg,
                     '","attributes":[{"trait_type":"Blonk Variation","value":"',
                     variation.toString(),
-                    '"}]}'
+                    '"},{"trait_type":"Background Type","value":"',
+                    backgroundType,
+                    '"},{"trait_type":"Text Color","value":"',
+                    textColorType,
+                    '"},{"trait_type":"Address Suffix","value":"',
+                    addressSuffix,
+                    '"}',
+                    specialTraits,
+                    "]}"
                 )
             );
     }
@@ -282,6 +386,19 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
         string memory background = _generateBackground(minter, block.number);
         string memory textColor = _generateTextColor(minter, block.number);
 
+        // Get last 3 characters of minter address for display
+        string memory minterStr = Strings.toHexString(
+            uint256(uint160(minter)),
+            20
+        );
+        string memory addressSuffix = string(
+            abi.encodePacked(
+                bytes(minterStr)[39], // 3rd from end
+                bytes(minterStr)[40], // 2nd from end
+                bytes(minterStr)[41] // last character
+            )
+        );
+
         // Build the SVG with proper line spacing to fill the canvas
         string memory svgLines = "";
 
@@ -309,6 +426,9 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
                     '<rect width="800" height="800" fill="url(#bg)"/>',
                     '<text x="400" y="50" fill="url(#textGrad)" font-family="Courier New,Courier,monospace" font-size="28px" font-weight="bold" text-anchor="middle" style="white-space:pre;letter-spacing:2px;text-shadow:2px 2px 4px rgba(0,0,0,0.8);">',
                     svgLines,
+                    "</text>",
+                    '<text x="50" y="750" fill="url(#textGrad)" font-family="Courier New,Courier,monospace" font-size="24px" font-weight="bold" style="text-shadow:2px 2px 4px rgba(0,0,0,0.8);">',
+                    addressSuffix,
                     "</text>",
                     "</svg>"
                 )

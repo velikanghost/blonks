@@ -31,7 +31,6 @@ contract Deploy is Script {
 
         console2.log("=== Blonks NFT Deployment ===");
         console2.log("Network:", config.networkName);
-        console2.log("Deployer:", config.deployer);
 
         vm.startBroadcast();
 
@@ -48,7 +47,6 @@ contract Deploy is Script {
     ) internal pure {
         console2.log("\n=== Deployment Summary ===");
         console2.log("Network:", config.networkName);
-        console2.log("Deployer:", config.deployer);
         console2.log("Blonks Contract:", blonks);
     }
 }
