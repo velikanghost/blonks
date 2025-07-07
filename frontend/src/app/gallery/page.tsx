@@ -146,7 +146,7 @@ export default function Gallery() {
               <h2 className="text-2xl font-bold text-white">
                 Blonks Gallery ({nfts.length} minted)
               </h2>
-              <div className="flex items-center space-x-2">
+              <div className="hidden md:flex items-center space-x-2">
                 <div className="w-2 h-2 bg-[#49c5b6] rounded-full animate-pulse"></div>
                 <span className="text-sm text-gray-400">Live evolving art</span>
               </div>

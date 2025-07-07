@@ -3,6 +3,11 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
 
+export const metadata = {
+  title: 'Blonks - Evolving ASCII Portrait NFTs',
+  description: 'Mint your unique evolving ASCII portrait NFT',
+}
+
 export default function RootLayout({
   children,
 }: {
