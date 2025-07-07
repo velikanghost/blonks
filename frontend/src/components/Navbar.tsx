@@ -63,7 +63,6 @@ export default function Navbar() {
           <NavLink href="/">Mint</NavLink>
           <NavLink href="/gallery">Gallery</NavLink>
           <NavLink href="/inventory">Inventory</NavLink>
-          <NavLink href="https://x.com/BlonksNFT">X/Twitter</NavLink>
         </div>
         <ConnectButton />
       </div>

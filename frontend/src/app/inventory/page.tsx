@@ -6,7 +6,6 @@ import { Address, createPublicClient, http } from 'viem'
 import { monadTestnet } from 'viem/chains'
 import { web3config } from '@/dapp.config'
 import { blonksAbi } from '@/contracts-generated'
-import { PortraitsMintCard } from '@/components/PortraitsMintCard'
 import { useState, useEffect } from 'react'
 import Navbar from '@/components/Navbar'
 
@@ -23,7 +22,6 @@ interface NFTData {
 
 export default function Inventory() {
   const { address } = useAccount()
-  const [showMint, setShowMint] = useState(false)
   const [nfts, setNfts] = useState<NFTData[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -84,20 +82,9 @@ export default function Inventory() {
       <Navbar />
       <div className="max-w-7xl mx-auto p-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-4xl font-bold">My Portraits</h1>
-          <button
-            onClick={() => setShowMint(!showMint)}
-            className="px-6 py-3 bg-[#49c5b6] text-black rounded-lg font-bold hover:opacity-90 transition-opacity"
-          >
-            {showMint ? 'Hide Mint' : 'Show Mint'}
-          </button>
+          <h1 className="text-4xl font-bold">My Blonks</h1>
+          <div className="text-[#49c5b6]">{nfts.length} blonks</div>
         </div>
-
-        {showMint && (
-          <div className="mb-8">
-            <PortraitsMintCard />
-          </div>
-        )}
 
         {!address ? (
           <div className="text-center text-gray-400">
@@ -109,29 +96,25 @@ export default function Inventory() {
           </div>
         ) : !nfts.length ? (
           <div className="text-center text-gray-400">
-            You don't have any Portraits yet. Head to the mint page to get
+            You don&apos;t have any blonks yet. Head to the mint page to get
             started!
           </div>
         ) : (
           <div className="w-full max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-8">
-              <h1 className="text-2xl font-bold text-white">My Collection</h1>
-              <div className="text-[#49c5b6]">{nfts.length} Portraits</div>
-            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {nfts.map((nft) => (
                 <div key={nft.id} className="w-full">
                   <div className="bg-gray-800 rounded-lg border border-[#49c5b6] p-4">
                     <div className="mb-4">
                       <h3 className="text-lg font-bold text-[#49c5b6]">
-                        Portrait #{nft.id}
+                        Blonk #{nft.id}
                       </h3>
                     </div>
                     {nft.image ? (
                       <div className="w-full h-64 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
                         <img
                           src={nft.image}
-                          alt={`Portrait #${nft.id}`}
+                          alt={`Blonk #${nft.id}`}
                           className="max-w-full max-h-full object-contain"
                         />
                       </div>

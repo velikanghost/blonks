@@ -4,9 +4,6 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
 
-const inter = Inter({ subsets: ['latin'] })
-const dmMono = DM_Mono({ subsets: ['latin'], weight: ['300', '400', '500'] })
-
 export default function RootLayout({
   children,
 }: {

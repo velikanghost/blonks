@@ -17,7 +17,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <RainbowKitProvider theme={myRainbowTheme}>
           <ProgressProvider
             height="4px"
-            color="#fffd00"
+            color="#49c5b6"
             options={{ showSpinner: false }}
             shallowRouting
           >

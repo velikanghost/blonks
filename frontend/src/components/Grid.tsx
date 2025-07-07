@@ -1,27 +1,55 @@
 'use client'
 
 import { useAccount, useWriteContract } from 'wagmi'
-import {
-  useReadBlonks,
-  useReadBlonksTokenUri,
-  useReadBlonksOwnerOf,
-  blonksAbi,
-} from '../contracts-generated'
-import { useState } from 'react'
+import { blonksAbi } from '../contracts-generated'
+import { useState, useMemo } from 'react'
 import { web3config } from '../dapp.config'
 import { NFTGallery } from './NFTViewer'
+import { useReadContract } from 'wagmi'
+import { Address } from 'viem'
 
 const GRID_SIZE = 10
+
+interface TileData {
+  x: number
+  y: number
+  tokenId: number
+  owner?: string
+  tokenUri?: string
+}
 
 export function Grid() {
   const { address } = useAccount()
   const { writeContract: mint } = useWriteContract()
   const [viewingTokenUri, setViewingTokenUri] = useState<string | null>(null)
 
-  // Create a 10x10 grid array
-  const grid = Array.from({ length: GRID_SIZE }, (_, x) =>
-    Array.from({ length: GRID_SIZE }, (_, y) => ({ x, y })),
-  )
+  // Create grid data with token IDs
+  const gridData = useMemo(() => {
+    const data: TileData[] = []
+    for (let x = 0; x < GRID_SIZE; x++) {
+      for (let y = 0; y < GRID_SIZE; y++) {
+        const tokenId = x * GRID_SIZE + y
+        data.push({ x, y, tokenId })
+      }
+    }
+    return data
+  }, [])
+
+  // Fetch owner for a single token
+  const { data: owner } = useReadContract({
+    address: web3config.contractAddress as Address,
+    abi: blonksAbi,
+    functionName: 'ownerOf',
+    args: [BigInt(0)], // Just fetch first token for now
+  })
+
+  // Fetch URI for a single token
+  const { data: tokenUri } = useReadContract({
+    address: web3config.contractAddress as Address,
+    abi: blonksAbi,
+    functionName: 'tokenURI',
+    args: [BigInt(0)], // Just fetch first token for now
+  })
 
   const handleMint = () => {
     if (!address) return // Not connected
@@ -51,33 +79,21 @@ export function Grid() {
         </button>
 
         <div className="grid grid-cols-10 gap-1 max-w-3xl mx-auto">
-          {grid.map((row, x) =>
-            row.map(({ y }) => {
-              const tokenId = x * GRID_SIZE + y
-              const { data: owner } = useReadBlonksOwnerOf({
-                args: [BigInt(tokenId)],
-              })
-              const { data: tokenUri } = useReadBlonksTokenUri({
-                args: [BigInt(tokenId)],
-              })
-
-              return (
-                <button
-                  key={`${x}-${y}`}
-                  onClick={() => handleTileClick(tokenUri)}
-                  disabled={!owner}
-                  className={`
-                    aspect-square p-2 text-xs border rounded w-14 h-14
-                    ${owner === address ? 'bg-green-200 cursor-pointer' : ''}
-                    ${owner && owner !== address ? 'bg-red-200 cursor-pointer' : ''}
-                    ${!owner ? 'bg-gray-100' : ''}
-                  `}
-                >
-                  {x},{y}
-                </button>
-              )
-            }),
-          )}
+          {gridData.map((tile) => (
+            <button
+              key={`${tile.x}-${tile.y}`}
+              onClick={() => handleTileClick(tokenUri || undefined)}
+              disabled={!owner}
+              className={`
+                aspect-square p-2 text-xs border rounded w-14 h-14
+                ${owner === address ? 'bg-green-200 cursor-pointer' : ''}
+                ${owner && owner !== address ? 'bg-red-200 cursor-pointer' : ''}
+                ${!owner ? 'bg-gray-100' : ''}
+              `}
+            >
+              {tile.x},{tile.y}
+            </button>
+          ))}
         </div>
       </div>
 
