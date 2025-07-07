@@ -16,7 +16,7 @@ import "./libraries/ASCIIPortraitLib.sol";
 contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
     using Strings for uint256;
 
-    uint256 public constant MAX_SUPPLY = 10000;
+    uint256 public constant MAX_SUPPLY = 500;
     uint256 private _currentTokenId;
 
     // Mapping from token ID to original minter address
@@ -25,7 +25,7 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
     // Mapping to track which addresses have already minted
     mapping(address => bool) public hasMinted;
 
-    uint256 public constant MINT_PRICE = 0.01 ether;
+    uint256 public constant MINT_PRICE = 0.1 ether;
 
     constructor() ERC721("Blonks", "BLONK") Ownable(msg.sender) {}
 
@@ -60,7 +60,7 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
         string memory encodedSvg
     ) internal view returns (string memory) {
         address minter = originalMinter[tokenId];
-        uint256 variation = (block.number / 100) % 20; // Increased from 5 to 20
+        uint256 variation = (block.number / 100) % 20;
 
         // Get last 3 characters of minter address
         string memory minterStr = Strings.toHexString(
@@ -69,9 +69,9 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
         );
         string memory addressSuffix = string(
             abi.encodePacked(
-                bytes(minterStr)[39], // 3rd from end
-                bytes(minterStr)[40], // 2nd from end
-                bytes(minterStr)[41] // last character
+                bytes(minterStr)[39],
+                bytes(minterStr)[40],
+                bytes(minterStr)[41]
             )
         );
 
@@ -121,7 +121,6 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
 
         string memory specialTraits = "";
         if (specialRoll < 1) {
-            // 1% chance for Diamond Frame
             specialTraits = string(
                 abi.encodePacked(
                     specialTraits,
@@ -129,7 +128,6 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
                 )
             );
         } else if (specialRoll < 6) {
-            // 5% chance for Golden Glow
             specialTraits = string(
                 abi.encodePacked(
                     specialTraits,
@@ -466,5 +464,23 @@ contract Blonks is ERC721Enumerable, ReentrancyGuard, Ownable {
     function withdraw() external onlyOwner {
         (bool success, ) = msg.sender.call{value: address(this).balance}("");
         require(success, "Transfer failed");
+    }
+
+    /**
+     * @dev Returns an array of token IDs owned by `owner`.
+     * @param owner address to query
+     * @return uint256[] array of token IDs owned by `owner`
+     */
+    function tokensOfOwner(
+        address owner
+    ) external view returns (uint256[] memory) {
+        uint256 tokenCount = balanceOf(owner);
+        uint256[] memory tokens = new uint256[](tokenCount);
+
+        for (uint256 i = 0; i < tokenCount; i++) {
+            tokens[i] = tokenOfOwnerByIndex(owner, i);
+        }
+
+        return tokens;
     }
 }

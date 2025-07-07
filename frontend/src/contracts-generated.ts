@@ -188,6 +188,13 @@ export const blonksAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'tokensOfOwner',
+    outputs: [{ name: '', internalType: 'uint256[]', type: 'uint256[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'totalSupply',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
@@ -515,6 +522,14 @@ export const useReadBlonksTokenOfOwnerByIndex =
 export const useReadBlonksTokenUri = /*#__PURE__*/ createUseReadContract({
   abi: blonksAbi,
   functionName: 'tokenURI',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link blonksAbi}__ and `functionName` set to `"tokensOfOwner"`
+ */
+export const useReadBlonksTokensOfOwner = /*#__PURE__*/ createUseReadContract({
+  abi: blonksAbi,
+  functionName: 'tokensOfOwner',
 })
 
 /**

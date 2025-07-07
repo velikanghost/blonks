@@ -32,7 +32,7 @@ contract BlonksTest is Test {
         vm.deal(user1, 1 ether);
 
         vm.startPrank(user1);
-        blonks.mint{value: 0.01 ether}();
+        blonks.mint{value: 0.1 ether}();
         vm.stopPrank();
 
         assertEq(blonks.balanceOf(user1), 1);
@@ -53,7 +53,7 @@ contract BlonksTest is Test {
         vm.deal(user1, 1 ether);
 
         vm.startPrank(user1);
-        blonks.mint{value: 0.01 ether}();
+        blonks.mint{value: 0.1 ether}();
         vm.stopPrank();
 
         string memory uri = blonks.tokenURI(1);
@@ -85,7 +85,7 @@ contract BlonksTest is Test {
         vm.deal(user1, 1 ether);
 
         vm.startPrank(user1);
-        blonks.mint{value: 0.01 ether}();
+        blonks.mint{value: 0.1 ether}();
         vm.stopPrank();
 
         // Get initial URI
@@ -108,7 +108,7 @@ contract BlonksTest is Test {
         vm.deal(user1, 1 ether);
 
         vm.startPrank(user1);
-        blonks.mint{value: 0.01 ether}();
+        blonks.mint{value: 0.1 ether}();
         vm.stopPrank();
 
         // Get URI at current block
@@ -129,7 +129,7 @@ contract BlonksTest is Test {
         // Fund contract
         vm.deal(user1, 1 ether);
         vm.prank(user1);
-        blonks.mint{value: 0.01 ether}();
+        blonks.mint{value: 0.1 ether}();
 
         // Check initial balance
         uint256 initialBalance = owner.balance;
@@ -140,7 +140,7 @@ contract BlonksTest is Test {
 
         // Verify withdrawal
         assertEq(address(blonks).balance, 0);
-        assertEq(owner.balance, initialBalance + 0.01 ether);
+        assertEq(owner.balance, initialBalance + 0.1 ether);
     }
 
     function test_RevertWhen_WithdrawNotOwner() public {

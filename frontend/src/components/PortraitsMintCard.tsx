@@ -48,7 +48,7 @@ export function PortraitsMintCard() {
       address: web3config.contractAddress,
       abi: blonksAbi,
       functionName: 'mint',
-      value: parseEther('0.01'), // 0.01 ETH mint price
+      value: parseEther('0.1'), // 0.1 ETH mint price
     })
   }
 
@@ -65,7 +65,7 @@ export function PortraitsMintCard() {
     if (isPending) return 'Confirming...'
     if (isConfirming) return 'Minting...'
     if (isConfirmed) return 'Minted!'
-    return 'Mint Portrait (0.01 ETH)'
+    return 'Mint Portrait (0.1 ETH)'
   }
 
   const getMintButtonDisabled = () => {
@@ -107,16 +107,6 @@ export function PortraitsMintCard() {
         </div>
       </div>
 
-      {/* Status Messages */}
-      {address && hasAlreadyMinted && (
-        <div className="p-4 bg-yellow-900/20 border border-yellow-600 rounded-lg">
-          <p className="text-yellow-400 text-center">
-            ✅ You have already minted your portrait! Check your inventory to
-            view it.
-          </p>
-        </div>
-      )}
-
       {isConfirmed && (
         <div className="p-4 bg-green-900/20 border border-green-600 rounded-lg">
           <p className="text-green-400 text-center">
@@ -141,8 +131,6 @@ export function PortraitsMintCard() {
       {/* Info */}
       <div className="text-xs text-gray-500 text-center space-y-1">
         <p>• One mint per wallet address</p>
-        <p>• Portrait evolves every 100 blocks</p>
-        <p>• Unique ASCII art based on your address</p>
       </div>
     </div>
   )

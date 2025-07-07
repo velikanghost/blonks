@@ -1,7 +1,6 @@
 'use client'
 
 import { PortraitsMintCard } from '../components/PortraitsMintCard'
-import { NFTGallery } from '../components/NFTViewer'
 import Navbar from '@/components/Navbar'
 
 export default function Home() {
@@ -21,20 +20,6 @@ export default function Home() {
             progression. Each blonk is generated from your wallet address and
             changes every 100 blocks.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-            <span className="bg-gray-800 px-3 py-1 rounded">
-              🎨 AI Generated
-            </span>
-            <span className="bg-gray-800 px-3 py-1 rounded">
-              ⏰ Time-Based Evolution
-            </span>
-            <span className="bg-gray-800 px-3 py-1 rounded">
-              🔐 One Per Wallet
-            </span>
-            <span className="bg-gray-800 px-3 py-1 rounded">
-              ⛓️ Fully On-Chain
-            </span>
-          </div>
         </div>
 
         {/* Main Content Grid */}
@@ -91,11 +76,11 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-gray-400">Price:</span>
-                  <span className="text-white ml-2">0.01 ETH</span>
+                  <span className="text-white ml-2">0.1 MON</span>
                 </div>
                 <div>
                   <span className="text-gray-400">Max Supply:</span>
-                  <span className="text-white ml-2">10,000</span>
+                  <span className="text-white ml-2">500</span>
                 </div>
                 <div>
                   <span className="text-gray-400">Per Wallet:</span>
