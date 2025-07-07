@@ -2,7 +2,7 @@
 
 import Navbar from '@/components/Navbar'
 import { useState, useEffect } from 'react'
-import { createPublicClient, http, Address } from 'viem'
+import { createPublicClient, http } from 'viem'
 import { monadTestnet } from 'viem/chains'
 import { web3config } from '@/dapp.config'
 import { blonksAbi } from '@/contracts-generated'
