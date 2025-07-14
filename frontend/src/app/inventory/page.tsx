@@ -1,6 +1,6 @@
 'use client'
 
-import { useAccount } from 'wagmi'
+import { useAccount, useBlockNumber } from 'wagmi'
 import { useReadContract } from 'wagmi'
 import { Address, createPublicClient, http } from 'viem'
 import { monadTestnet } from 'viem/chains'
@@ -22,8 +22,10 @@ interface NFTData {
 
 export default function Inventory() {
   const { address } = useAccount()
+  const { data: blockNumber } = useBlockNumber({ watch: true })
   const [nfts, setNfts] = useState<NFTData[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   // Get tokens owned by address
   const { data: tokenIds } = useReadContract({
@@ -75,7 +77,16 @@ export default function Inventory() {
     }
 
     getTokenURIs()
-  }, [tokenIds])
+  }, [tokenIds, refreshTrigger])
+
+  // Refresh every 100 blocks
+  useEffect(() => {
+    if (!blockNumber) return
+    const bn = Number(blockNumber)
+    if (bn % 100 === 0) {
+      setRefreshTrigger((prev) => prev + 1)
+    }
+  }, [blockNumber])
 
   return (
     <div className="min-h-screen bg-[#000000] text-white font-mono">

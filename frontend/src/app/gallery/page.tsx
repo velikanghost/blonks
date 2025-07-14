@@ -6,6 +6,7 @@ import { createPublicClient, http } from 'viem'
 import { monadTestnet } from 'viem/chains'
 import { web3config } from '@/dapp.config'
 import { blonksAbi } from '@/contracts-generated'
+import { useBlockNumber } from 'wagmi'
 
 const publicClient = createPublicClient({
   chain: monadTestnet,
@@ -22,6 +23,8 @@ interface NFTData {
 export default function Gallery() {
   const [nfts, setNfts] = useState<NFTData[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const { data: blockNumber } = useBlockNumber({ watch: true })
+  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
   useEffect(() => {
     async function loadNFTs() {
@@ -94,7 +97,15 @@ export default function Gallery() {
     }
 
     loadNFTs()
-  }, [])
+  }, [refreshTrigger])
+
+  useEffect(() => {
+    if (!blockNumber) return
+    const bn = Number(blockNumber)
+    if (bn % 100 === 0) {
+      setRefreshTrigger((prev) => prev + 1)
+    }
+  }, [blockNumber])
 
   return (
     <main className="min-h-screen bg-[#000000] text-white font-mono">
@@ -198,7 +209,7 @@ export default function Gallery() {
                 Each Blonk evolves every 100 blocks, creating unique temporal
                 art
               </p>
-              <p>Refresh the page to see the latest evolution state</p>
+              <p>Auto-updated every 100 blocks</p>
             </div>
           </div>
         )}
