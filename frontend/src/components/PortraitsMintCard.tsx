@@ -65,7 +65,7 @@ export function PortraitsMintCard() {
     if (isPending) return 'Confirming...'
     if (isConfirming) return 'Minting...'
     if (isConfirmed) return 'Minted!'
-    return 'Mint Portrait (0.1 ETH)'
+    return 'Mint Portrait (0.1 MON)'
   }
 
   const getMintButtonDisabled = () => {
@@ -85,7 +85,7 @@ export function PortraitsMintCard() {
           Mint Your Temporal ASCII Portrait
         </h2>
         <p className="text-gray-400 mb-6">
-          Each portrait is unique to your wallet address and evolves over time
+          Each blonk is unique to your wallet address and evolves over time
           based on block numbers. Limited to one per wallet.
         </p>
       </div>
