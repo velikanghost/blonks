@@ -23,7 +23,6 @@ export function PortraitsMintCard() {
       hash,
     })
 
-  // Check if user has already minted
   const { data: hasAlreadyMinted, isLoading: isCheckingMint } =
     useReadBlonksHasAddressMinted({
       address: web3config.contractAddress,
@@ -33,7 +32,6 @@ export function PortraitsMintCard() {
       },
     })
 
-  // Get total supply and max supply for progress
   const { data: totalSupply } = useReadBlonksTotalSupply({
     address: web3config.contractAddress,
   })
@@ -48,11 +46,10 @@ export function PortraitsMintCard() {
       address: web3config.contractAddress,
       abi: blonksAbi,
       functionName: 'mint',
-      value: parseEther('0.1'), // 0.1 ETH mint price
+      value: parseEther('0.1'),
     })
   }
 
-  // Calculate minting progress
   const progress =
     totalSupply && maxSupply
       ? (Number(totalSupply) / Number(maxSupply)) * 100
@@ -65,6 +62,7 @@ export function PortraitsMintCard() {
     if (isPending) return 'Confirming...'
     if (isConfirming) return 'Minting...'
     if (isConfirmed) return 'Minted!'
+    if (progress === 100) return 'Sold Out!'
     return 'Mint Portrait (0.1 MON)'
   }
 
@@ -74,7 +72,8 @@ export function PortraitsMintCard() {
       hasAlreadyMinted ||
       isPending ||
       isConfirming ||
-      isCheckingMint
+      isCheckingMint ||
+      progress === 100
     )
   }
 
@@ -90,7 +89,6 @@ export function PortraitsMintCard() {
         </p>
       </div>
 
-      {/* Minting Progress */}
       <div className="space-y-2">
         <div className="flex justify-between text-sm">
           <span className="text-gray-400">Minted</span>
@@ -115,7 +113,6 @@ export function PortraitsMintCard() {
         </div>
       )}
 
-      {/* Mint Button */}
       <button
         onClick={handleMint}
         disabled={getMintButtonDisabled()}
@@ -128,7 +125,6 @@ export function PortraitsMintCard() {
         {getMintButtonText()}
       </button>
 
-      {/* Info */}
       <div className="text-xs text-gray-500 text-center space-y-1">
         <p>• One mint per wallet address</p>
       </div>

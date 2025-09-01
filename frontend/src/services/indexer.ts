@@ -25,6 +25,7 @@ export class IndexerService {
     this.baseUrl = web3config.indexerApiUrl
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async graphqlQuery<T>(query: string, variables?: any): Promise<T> {
     try {
       const response = await fetch(this.baseUrl, {
@@ -141,7 +142,6 @@ export class IndexerService {
     }
   }
 
-  // Optional: Get a single NFT by tokenId
   async getNFTByTokenId(tokenId: string): Promise<GalleryNFT | null> {
     const query = `
       query GetNFTByTokenId($tokenId: String!) {
@@ -178,7 +178,6 @@ export class IndexerService {
     }
   }
 
-  // Optional: Get transfers for a specific address
   async getTransfersByAddress(address: string): Promise<IndexerTransfer[]> {
     const query = `
       query GetTransfersByAddress($address: String!) {
@@ -200,14 +199,6 @@ export class IndexerService {
     }>(query, { address })
     return result.Blonks_Transfer
   }
-
-  // Get metadata for multiple NFTs in a single query (if your indexer supports it)
-  async getMetadataForNFTs(tokenIds: string[]): Promise<Record<string, any>> {
-    // This is a placeholder - implement if your indexer supports metadata queries
-    // For now, return empty object
-    return {}
-  }
 }
 
-// Export singleton instance
 export const indexerService = new IndexerService()

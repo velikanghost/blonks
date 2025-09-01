@@ -40,7 +40,7 @@ export function Grid() {
     address: web3config.contractAddress as Address,
     abi: blonksAbi,
     functionName: 'ownerOf',
-    args: [BigInt(0)], // Just fetch first token for now
+    args: [BigInt(0)],
   })
 
   // Fetch URI for a single token
@@ -48,11 +48,11 @@ export function Grid() {
     address: web3config.contractAddress as Address,
     abi: blonksAbi,
     functionName: 'tokenURI',
-    args: [BigInt(0)], // Just fetch first token for now
+    args: [BigInt(0)],
   })
 
   const handleMint = () => {
-    if (!address) return // Not connected
+    if (!address) return
     mint({
       address: web3config.contractAddress as `0x${string}`,
       abi: blonksAbi,

@@ -148,7 +148,7 @@ export default function Inventory() {
               No Blonks Found
             </h3>
             <p className="text-gray-400 mb-6">
-              You don't own any Blonks yet. Mint your first one!
+              You don&apos;t own any Blonks yet. Mint/Buy your first one!
             </p>
           </div>
         ) : (

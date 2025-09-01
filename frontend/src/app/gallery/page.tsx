@@ -31,10 +31,6 @@ export default function Gallery() {
     return `${address.slice(0, 6)}...${address.slice(-4)}`
   }
 
-  const formatDate = (timestamp: string) => {
-    return new Date(timestamp).toLocaleDateString()
-  }
-
   if (isLoading) {
     return (
       <main className="min-h-screen bg-[#000000] text-white font-mono">

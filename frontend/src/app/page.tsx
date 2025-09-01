@@ -6,10 +6,8 @@ import Navbar from '@/components/Navbar'
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#000000] text-white font-mono">
-      {/* Navbar */}
       <Navbar />
 
-      {/* Hero Section */}
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-[#49c5b6]">
@@ -22,14 +20,11 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {/* Mint Section */}
           <div className="lg:col-span-1">
             <PortraitsMintCard />
           </div>
 
-          {/* Description Section */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-gray-900/50 p-8 rounded-lg border border-gray-800">
               <h2 className="text-2xl font-bold mb-4 text-[#49c5b6]">
