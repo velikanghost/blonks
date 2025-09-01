@@ -21,11 +21,11 @@ export default function Inventory() {
     )
   }, [address, nftsWithMetadata])
 
-  // Auto-refresh every 1000 blocks
+  // Auto-refresh every 100 blocks to see NFT evolution
   useEffect(() => {
     if (!blockNumber) return
     const bn = Number(blockNumber)
-    if (bn % 1000 === 0) {
+    if (bn % 100 === 0) {
       refreshGallery()
     }
   }, [blockNumber, refreshGallery])

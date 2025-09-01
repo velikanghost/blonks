@@ -11,7 +11,6 @@ export default function Gallery() {
     nfts,
     isLoading,
     error,
-    lastUpdated,
     refreshGallery,
     loadNextPage,
     hasMore,
@@ -137,12 +136,6 @@ export default function Gallery() {
                 <span className="text-sm text-gray-400">Live evolving art</span>
               </div>
             </div>
-
-            {lastUpdated && (
-              <div className="text-sm text-gray-500 text-center">
-                Last updated: {lastUpdated.toLocaleString()}
-              </div>
-            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
               {nftsWithMetadata.map((nft) => (

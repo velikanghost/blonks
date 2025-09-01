@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createPublicClient, http } from 'viem'
 import { monadTestnet } from 'viem/chains'
+import { useBlockNumber } from 'wagmi'
 import { web3config } from '@/dapp.config'
 import { blonksAbi } from '@/contracts-generated'
 
@@ -54,6 +55,7 @@ export function useNFTMetadata(
     [],
   )
   const [isLoadingMetadata, setIsLoadingMetadata] = useState(false)
+  const { data: blockNumber } = useBlockNumber({ watch: true })
 
   useEffect(() => {
     async function loadMetadata() {
@@ -105,7 +107,7 @@ export function useNFTMetadata(
     }
 
     loadMetadata()
-  }, [nfts])
+  }, [nfts, blockNumber]) // Add blockNumber dependency to refresh metadata when blocks change
 
   return {
     nftsWithMetadata,
