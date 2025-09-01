@@ -31,74 +31,15 @@ interface NFTWithMetadata {
   metadataError?: string
 }
 
-// Helper function to add delay between requests
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-// Helper function to process NFTs in batches
-async function processBatch(
-  nfts: Array<{
-    tokenId: string
-    originalMinter: string
-    currentOwner: string
-    mintTimestamp: string
-  }>,
-  batchSize: number = 10,
-  delayMs: number = 100,
-): Promise<NFTWithMetadata[]> {
-  const results: NFTWithMetadata[] = []
-
-  for (let i = 0; i < nfts.length; i += batchSize) {
-    const batch = nfts.slice(i, i + batchSize)
-
-    const batchResults = await Promise.all(
-      batch.map(async (nft) => {
-        try {
-          const uri = await publicClient.readContract({
-            address: web3config.contractAddress,
-            abi: blonksAbi,
-            functionName: 'tokenURI',
-            args: [BigInt(nft.tokenId)],
-          })
-
-          if (uri) {
-            const base64Data = uri.split(',')[1]
-            const json = JSON.parse(atob(base64Data))
-
-            return {
-              ...nft,
-              metadata: json,
-              isLoadingMetadata: false,
-            }
-          } else {
-            return {
-              ...nft,
-              isLoadingMetadata: false,
-              metadataError: 'No metadata found',
-            }
-          }
-        } catch (error) {
-          console.error(
-            `Error fetching metadata for token ${nft.tokenId}:`,
-            error,
-          )
-          return {
-            ...nft,
-            isLoadingMetadata: false,
-            metadataError: 'Failed to load metadata',
-          }
-        }
-      }),
-    )
-
-    results.push(...batchResults)
-
-    // Add delay between batches to avoid rate limiting
-    if (i + batchSize < nfts.length) {
-      await delay(delayMs)
-    }
+// Helper function to parse metadata from URI
+function parseMetadata(uri: string): NFTMetadata | null {
+  try {
+    const base64Data = uri.split(',')[1]
+    const json = JSON.parse(atob(base64Data))
+    return json
+  } catch {
+    return null
   }
-
-  return results
 }
 
 export function useNFTMetadata(
@@ -121,19 +62,43 @@ export function useNFTMetadata(
       setIsLoadingMetadata(true)
 
       try {
-        // Process NFTs in batches to avoid rate limiting
-        const nftsWithMetadataData = await processBatch(nfts, 5, 200) // 5 NFTs per batch, 200ms delay
+        // Use viem's built-in multicall support
+        const results = await publicClient.multicall({
+          contracts: nfts.map((nft) => ({
+            address: web3config.contractAddress,
+            abi: blonksAbi,
+            functionName: 'tokenURI',
+            args: [BigInt(nft.tokenId)],
+          })),
+        })
+
+        // Process results
+        const nftsWithMetadataData: NFTWithMetadata[] = nfts.map(
+          (nft, index) => {
+            const result = results[index]
+
+            if (result.status === 'success' && result.result) {
+              const metadata = parseMetadata(result.result as string)
+              if (metadata) {
+                return {
+                  ...nft,
+                  metadata,
+                  isLoadingMetadata: false,
+                }
+              }
+            }
+
+            return {
+              ...nft,
+              isLoadingMetadata: false,
+              metadataError: 'Failed to load metadata',
+            }
+          },
+        )
+
         setNftsWithMetadata(nftsWithMetadataData)
       } catch (error) {
-        console.error('Error loading metadata:', error)
-        // Set NFTs without metadata as fallback
-        setNftsWithMetadata(
-          nfts.map((nft) => ({
-            ...nft,
-            isLoadingMetadata: false,
-            metadataError: 'Failed to load metadata',
-          })),
-        )
+        console.error('Error loading metadata with multicall:', error)
       } finally {
         setIsLoadingMetadata(false)
       }

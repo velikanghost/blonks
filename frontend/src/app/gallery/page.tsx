@@ -7,17 +7,23 @@ import { useBlockNumber } from 'wagmi'
 import { useEffect } from 'react'
 
 export default function Gallery() {
-  const { nfts, isLoading, error, lastUpdated, refreshGallery, totalSupply } =
-    useGalleryData()
+  const {
+    nfts,
+    isLoading,
+    error,
+    lastUpdated,
+    refreshGallery,
+    loadNextPage,
+    hasMore,
+    totalSupply,
+  } = useGalleryData()
   const { nftsWithMetadata, isLoadingMetadata } = useNFTMetadata(nfts)
   const { data: blockNumber } = useBlockNumber({ watch: true })
 
-  // Auto-refresh every 100 blocks (but much less frequently now)
   useEffect(() => {
     if (!blockNumber) return
     const bn = Number(blockNumber)
-    if (bn % 1000 === 0) {
-      // Changed from 100 to 1000 to reduce frequency
+    if (bn % 100 === 0) {
       refreshGallery()
     }
   }, [blockNumber, refreshGallery])
@@ -37,7 +43,7 @@ export default function Gallery() {
         <div className="max-w-7xl mx-auto px-8 py-12">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#49c5b6] mx-auto mb-4"></div>
-            <p className="text-gray-400">Loading gallery from indexer...</p>
+            <p className="text-gray-400">Loading gallery...</p>
           </div>
         </div>
       </main>
@@ -176,9 +182,6 @@ export default function Gallery() {
                           Owner: {formatAddress(nft.currentOwner)}
                         </p>
                       )}
-                      <p className="text-gray-500">
-                        Minted: {formatDate(nft.mintTimestamp)}
-                      </p>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -192,12 +195,30 @@ export default function Gallery() {
               ))}
             </div>
 
+            {hasMore && (
+              <div className="text-center">
+                <button
+                  onClick={loadNextPage}
+                  disabled={isLoadingMetadata}
+                  className="bg-[#49c5b6] text-black px-8 py-3 rounded-lg hover:bg-[#3ba697] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoadingMetadata ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : (
+                    'Load More'
+                  )}
+                </button>
+              </div>
+            )}
+
             <div className="text-center text-sm text-gray-500 space-y-1">
               <p>
                 Each Blonk evolves every 100 blocks, creating unique temporal
                 art
               </p>
-              <p>Powered by indexer for instant loading</p>
             </div>
           </div>
         )}

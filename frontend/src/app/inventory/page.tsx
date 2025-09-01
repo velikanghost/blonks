@@ -13,7 +13,7 @@ export default function Inventory() {
   const { nftsWithMetadata, isLoadingMetadata } = useNFTMetadata(nfts)
   const { data: blockNumber } = useBlockNumber({ watch: true })
 
-  // Filter NFTs owned by current user
+  // Filter NFTs owned by current user from all loaded NFTs
   const userNFTs = useMemo(() => {
     if (!address || !nftsWithMetadata.length) return []
     return nftsWithMetadata.filter(
@@ -45,7 +45,7 @@ export default function Inventory() {
         <div className="max-w-7xl mx-auto px-8 py-12">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#49c5b6] mx-auto mb-4"></div>
-            <p className="text-gray-400">Loading inventory from indexer...</p>
+            <p className="text-gray-400">Loading inventory...</p>
           </div>
         </div>
       </main>
@@ -201,9 +201,6 @@ export default function Inventory() {
                           Acquired: {formatDate(nft.mintTimestamp)}
                         </p>
                       )}
-                      <p className="text-gray-500">
-                        Minted: {formatDate(nft.mintTimestamp)}
-                      </p>
                     </div>
 
                     <div className="flex items-center justify-between">
@@ -222,7 +219,6 @@ export default function Inventory() {
                 Each Blonk evolves every 100 blocks, creating unique temporal
                 art
               </p>
-              <p>Powered by indexer for instant loading</p>
             </div>
           </div>
         )}
