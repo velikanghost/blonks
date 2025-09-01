@@ -4,4 +4,7 @@ export const web3config = {
   chainName: 'Monad Testnet',
   chainRpcUrl: process.env.NEXT_PUBLIC_RPC_URL,
   chainExplorerUrl: 'https://testnet.monadexplorer.com/',
+  // Add indexer configuration
+  indexerApiUrl:
+    process.env.NEXT_PUBLIC_INDEXER_API_URL || 'https://your-indexer-api.com',
 } as const

@@ -1,111 +1,85 @@
 'use client'
 
 import Navbar from '@/components/Navbar'
-import { useState, useEffect } from 'react'
-import { createPublicClient, http } from 'viem'
-import { monadTestnet } from 'viem/chains'
-import { web3config } from '@/dapp.config'
-import { blonksAbi } from '@/contracts-generated'
+import { useGalleryData } from '@/hooks/useGalleryData'
+import { useNFTMetadata } from '@/hooks/useNFTMetadata'
 import { useBlockNumber } from 'wagmi'
-
-const publicClient = createPublicClient({
-  chain: monadTestnet,
-  transport: http(),
-})
-
-interface NFTData {
-  id: number
-  uri?: string
-  image?: string
-  minter?: string
-}
+import { useEffect } from 'react'
 
 export default function Gallery() {
-  const [nfts, setNfts] = useState<NFTData[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const { nfts, isLoading, error, lastUpdated, refreshGallery, totalSupply } =
+    useGalleryData()
+  const { nftsWithMetadata, isLoadingMetadata } = useNFTMetadata(nfts)
   const { data: blockNumber } = useBlockNumber({ watch: true })
-  const [refreshTrigger, setRefreshTrigger] = useState(0)
 
-  useEffect(() => {
-    async function loadNFTs() {
-      try {
-        // Get total supply
-        const totalSupply = await publicClient.readContract({
-          address: web3config.contractAddress,
-          abi: blonksAbi,
-          functionName: 'totalSupply',
-        })
-
-        if (!totalSupply) {
-          setIsLoading(false)
-          return
-        }
-
-        // Initialize NFTs array with IDs
-        const initialNfts = Array.from(
-          { length: Number(totalSupply) },
-          (_, i) => ({
-            id: i + 1,
-          }),
-        )
-        setNfts(initialNfts)
-
-        // Fetch data for each NFT
-        for (const nft of initialNfts) {
-          try {
-            // Get token URI
-            const uri = await publicClient.readContract({
-              address: web3config.contractAddress,
-              abi: blonksAbi,
-              functionName: 'tokenURI',
-              args: [BigInt(nft.id)],
-            })
-
-            // Get original minter
-            const minter = await publicClient.readContract({
-              address: web3config.contractAddress,
-              abi: blonksAbi,
-              functionName: 'originalMinter',
-              args: [BigInt(nft.id)],
-            })
-
-            if (uri) {
-              const base64Data = uri.split(',')[1]
-              const json = JSON.parse(atob(base64Data))
-
-              setNfts((current) =>
-                current.map((item) =>
-                  item.id === nft.id
-                    ? {
-                        ...item,
-                        uri,
-                        image: json.image,
-                        minter: minter as string,
-                      }
-                    : item,
-                ),
-              )
-            }
-          } catch (error) {
-            console.error(`Error fetching data for token ${nft.id}:`, error)
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching total supply:', error)
-      }
-      setIsLoading(false)
-    }
-
-    loadNFTs()
-  }, [refreshTrigger])
-
+  // Auto-refresh every 100 blocks (but much less frequently now)
   useEffect(() => {
     if (!blockNumber) return
     const bn = Number(blockNumber)
-    if (bn % 100 === 0) {
-      setRefreshTrigger((prev) => prev + 1)
+    if (bn % 1000 === 0) {
+      // Changed from 100 to 1000 to reduce frequency
+      refreshGallery()
     }
-  }, [blockNumber])
+  }, [blockNumber, refreshGallery])
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`
+  }
+
+  const formatDate = (timestamp: string) => {
+    return new Date(timestamp).toLocaleDateString()
+  }
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-[#000000] text-white font-mono">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#49c5b6] mx-auto mb-4"></div>
+            <p className="text-gray-400">Loading gallery from indexer...</p>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  if (error) {
+    return (
+      <main className="min-h-screen bg-[#000000] text-white font-mono">
+        <Navbar />
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <div className="text-center py-12">
+            <div className="mb-6">
+              <svg
+                className="w-16 h-16 text-red-500 mx-auto mb-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">
+              Error Loading Gallery
+            </h3>
+            <p className="text-red-400 mb-6">{error}</p>
+            <button
+              onClick={refreshGallery}
+              className="bg-[#49c5b6] text-black px-6 py-2 rounded-lg hover:bg-[#3ba697] transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen bg-[#000000] text-white font-mono">
@@ -122,12 +96,7 @@ export default function Gallery() {
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#49c5b6] mx-auto mb-4"></div>
-            <p className="text-gray-400">Loading gallery...</p>
-          </div>
-        ) : !nfts.length ? (
+        {!nfts.length ? (
           <div className="text-center py-12">
             <div className="mb-6">
               <svg
@@ -155,7 +124,7 @@ export default function Gallery() {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-white">
-                Blonks Gallery ({nfts.length} minted)
+                Blonks Gallery ({totalSupply} minted)
               </h2>
               <div className="hidden md:flex items-center space-x-2">
                 <div className="w-2 h-2 bg-[#49c5b6] rounded-full animate-pulse"></div>
@@ -163,36 +132,55 @@ export default function Gallery() {
               </div>
             </div>
 
+            {lastUpdated && (
+              <div className="text-sm text-gray-500 text-center">
+                Last updated: {lastUpdated.toLocaleString()}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-              {nfts.map((nft) => (
+              {nftsWithMetadata.map((nft) => (
                 <div
-                  key={nft.id}
+                  key={nft.tokenId}
                   className="bg-gray-900 rounded-lg border border-[#49c5b6] p-4 hover:border-[#3ba697] transition-all duration-200 group hover:scale-[1.02]"
                 >
                   <div className="aspect-square bg-gray-800 rounded-lg mb-4 overflow-hidden relative">
-                    {nft.image ? (
+                    {nft.metadata?.image ? (
                       <img
-                        src={nft.image}
-                        alt={`Portrait #${nft.id}`}
+                        src={nft.metadata.image}
+                        alt={`Blonk #${nft.tokenId}`}
                         className="w-full h-full object-contain"
                       />
-                    ) : (
+                    ) : isLoadingMetadata ? (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#49c5b6]"></div>
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+                        <span className="text-sm">No Image</span>
                       </div>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <h3 className="text-white font-bold text-lg group-hover:text-[#49c5b6] transition-colors">
-                      Blonk #{nft.id}
+                      Blonk #{nft.tokenId}
                     </h3>
-                    {nft.minter && (
-                      <p className="text-gray-400 text-sm font-mono">
-                        Minter: {nft.minter.slice(0, 6)}...
-                        {nft.minter.slice(-4)}
+
+                    <div className="space-y-1 text-sm">
+                      <p className="text-gray-400">
+                        Minter: {formatAddress(nft.originalMinter)}
                       </p>
-                    )}
+                      {nft.currentOwner !== nft.originalMinter && (
+                        <p className="text-gray-400">
+                          Owner: {formatAddress(nft.currentOwner)}
+                        </p>
+                      )}
+                      <p className="text-gray-500">
+                        Minted: {formatDate(nft.mintTimestamp)}
+                      </p>
+                    </div>
+
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">
                         Evolving Art
@@ -209,7 +197,7 @@ export default function Gallery() {
                 Each Blonk evolves every 100 blocks, creating unique temporal
                 art
               </p>
-              <p>Auto-updated every 100 blocks</p>
+              <p>Powered by indexer for instant loading</p>
             </div>
           </div>
         )}
